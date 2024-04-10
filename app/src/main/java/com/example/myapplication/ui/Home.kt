@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
-            text = "Hello World!",
+            text = "Hello qqjkjkjkWorld!",
             style = MaterialTheme.typography.headlineSmall,
         )
     }

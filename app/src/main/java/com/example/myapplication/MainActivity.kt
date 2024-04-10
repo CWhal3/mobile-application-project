@@ -78,7 +78,6 @@ fun AppBarTop(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         modifier = modifier,
-        /*
         navigationIcon = {
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
@@ -89,9 +88,7 @@ fun AppBarTop(
                 }
             }
         }
-        */
     )
-
 }
 
 @Composable
@@ -129,13 +126,6 @@ fun Application(
     )
 
     Scaffold(
-        topBar = {
-            AppBarTop(
-                currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp() },
-            )
-        },
         bottomBar = {
             AppBarBottom(
                 currentScreen = currentScreen,

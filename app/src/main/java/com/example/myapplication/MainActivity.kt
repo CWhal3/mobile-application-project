@@ -15,6 +15,7 @@ import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.expandHorizontally
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,12 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -46,10 +53,11 @@ import com.example.myapplication.ui.theme.AppTheme
 enum class CodeProjectViews(@StringRes val title: Int) {
     Home(title = R.string.app_name),
     Other(title = R.string.app_name),
+    Directory(title = R.string.app_name),
 }
 
 @Composable
-fun AppBar(
+fun AppBarTop(
     currentScreen: CodeProjectViews,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
@@ -76,6 +84,35 @@ fun AppBar(
 }
 
 @Composable
+fun AppBarBottom(
+    currentScreen: CodeProjectViews,
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+) {
+    BottomAppBar(
+        actions = {
+            IconButton(onClick = {
+            }) {
+                Icon(Icons.Filled.LocationOn, contentDescription = "Description")
+            }
+            IconButton(onClick = {
+                navController.popBackStack(CodeProjectViews.Home.name, inclusive = false)
+            }) {
+                Icon(Icons.Filled.Home, contentDescription = "Description")
+            }
+            IconButton(onClick = {
+                navController.popBackStack(CodeProjectViews.Other.name, inclusive = false)
+            }) {
+                Icon(Icons.Filled.List, contentDescription = "Description")
+            }
+            IconButton(onClick = {}) {
+                Icon(Icons.Filled.Search, contentDescription = "Description")
+            }
+        }
+    )
+}
+
+@Composable
 fun Application(
     navController: NavHostController = rememberNavController(),
 ) {
@@ -87,18 +124,24 @@ fun Application(
 
     Scaffold(
         topBar = {
-            AppBar(
+            AppBarTop(
                 currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
             )
         },
+        bottomBar = {
+            AppBarBottom(
+                currentScreen = currentScreen,
+                navController = navController,
+            )
+        }
     ) { innerPadding ->
         // val uiState by viewModel.uiState.collectAsState()
 
         NavHost(
             navController = navController,
-            startDestination = CodeProjectViews.Other.name,
+            startDestination = CodeProjectViews.Home.name,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())

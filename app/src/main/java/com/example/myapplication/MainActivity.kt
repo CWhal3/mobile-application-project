@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Icon
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -28,6 +29,8 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -36,9 +39,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -52,11 +58,11 @@ import com.example.myapplication.ui.NewScreen
 import com.example.myapplication.ui.SearchScreen
 import com.example.myapplication.ui.theme.AppTheme
 
-enum class CodeProjectViews(@StringRes val title: Int) {
-    Home(title = R.string.app_name),
-    Directory(title = R.string.app_name),
-    Search(title = R.string.app_name),
-    Other(title = R.string.app_name),
+enum class CodeProjectViews(val route: String, @StringRes val title: Int, val icon: ImageVector) {
+    Home(route = "Home", title = R.string.app_name, icon = Icons.Filled.LocationOn),
+    Directory(route = "Directory", title = R.string.app_name, icon = Icons.Filled.Home),
+    Search(route = "Search", title = R.string.app_name, icon = Icons.Filled.Search),
+    Other(route = "Other", title = R.string.app_name, icon = Icons.Filled.List),
 }
 
 @Composable
@@ -72,6 +78,7 @@ fun AppBarTop(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),
         modifier = modifier,
+        /*
         navigationIcon = {
             if (canNavigateBack) {
                 IconButton(onClick = navigateUp) {
@@ -82,6 +89,7 @@ fun AppBarTop(
                 }
             }
         }
+        */
     )
 
 }
@@ -92,27 +100,22 @@ fun AppBarBottom(
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
-    BottomAppBar(
-        actions = {
-            IconButton(onClick = {
-            }) {
-                Icon(Icons.Filled.LocationOn, contentDescription = "Description")
-            }
-            IconButton(onClick = {
-                navController.popBackStack(CodeProjectViews.Home.name, inclusive = false)
-            }) {
-                Icon(Icons.Filled.Home, contentDescription = "Description")
-            }
-            IconButton(onClick = {
-                navController.popBackStack(CodeProjectViews.Other.name, inclusive = false)
-            }) {
-                Icon(Icons.Filled.List, contentDescription = "Description")
-            }
-            IconButton(onClick = {}) {
-                Icon(Icons.Filled.Search, contentDescription = "Description")
-            }
+    NavigationBar {
+        val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
+        CodeProjectViews.values().forEach { page ->
+            NavigationBarItem(
+                selected = currentRoute == page.route,
+                label = { Text(page.name) },
+                onClick = {
+                    navController.navigate(page.route)
+                },
+                icon = {
+                   Icon(page.icon, contentDescription = page.name)
+                },
+            )
         }
-    )
+    }
 }
 
 @Composable
@@ -122,7 +125,7 @@ fun Application(
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     val currentScreen = CodeProjectViews.valueOf(
-        backStackEntry?.destination?.route ?: CodeProjectViews.Home.name
+        backStackEntry?.destination?.route ?: CodeProjectViews.Home.route
     )
 
     Scaffold(
@@ -144,23 +147,23 @@ fun Application(
 
         NavHost(
             navController = navController,
-            startDestination = CodeProjectViews.Home.name,
+            startDestination = CodeProjectViews.Home.route,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding),
         ) {
             // This is where the code for rendering the different variants go
-            composable(route = CodeProjectViews.Home.name) {
+            composable(route = CodeProjectViews.Home.route) {
                 HomeScreen(modifier = Modifier.fillMaxHeight())
             }
-            composable(route = CodeProjectViews.Directory.name) {
+            composable(route = CodeProjectViews.Directory.route) {
                 DirectoryScreen(modifier = Modifier.fillMaxHeight())
             }
-            composable(route = CodeProjectViews.Search.name) {
+            composable(route = CodeProjectViews.Search.route) {
                 SearchScreen(modifier = Modifier.fillMaxHeight())
             }
-            composable(route = CodeProjectViews.Other.name) {
+            composable(route = CodeProjectViews.Other.route) {
                 NewScreen(modifier = Modifier.fillMaxHeight())
             }
         }

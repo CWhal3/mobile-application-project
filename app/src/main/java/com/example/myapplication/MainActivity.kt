@@ -57,7 +57,6 @@ enum class CodeProjectViews(@StringRes val title: Int) {
     Directory(title = R.string.app_name),
     Search(title = R.string.app_name),
     Other(title = R.string.app_name),
-    Directory(title = R.string.app_name),
 }
 
 @Composable

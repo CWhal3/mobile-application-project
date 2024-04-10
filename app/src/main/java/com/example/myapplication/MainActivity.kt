@@ -38,6 +38,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.ui.DirectoryScreen
 
 import com.example.myapplication.ui.HomeScreen
 import com.example.myapplication.ui.NewScreen
@@ -46,6 +47,7 @@ import com.example.myapplication.ui.theme.AppTheme
 
 enum class CodeProjectViews(@StringRes val title: Int) {
     Home(title = R.string.app_name),
+    Directory(title = R.string.app_name),
     Search(title = R.string.app_name),
     Other(title = R.string.app_name),
 }
@@ -100,7 +102,7 @@ fun Application(
 
         NavHost(
             navController = navController,
-            startDestination = CodeProjectViews.Search.name,
+            startDestination = CodeProjectViews.Home.name,
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
@@ -109,6 +111,9 @@ fun Application(
             // This is where the code for rendering the different variants go
             composable(route = CodeProjectViews.Home.name) {
                 HomeScreen(modifier = Modifier.fillMaxHeight())
+            }
+            composable(route = CodeProjectViews.Directory.name) {
+                DirectoryScreen(modifier = Modifier.fillMaxHeight())
             }
             composable(route = CodeProjectViews.Search.name) {
                 SearchScreen(modifier = Modifier.fillMaxHeight())

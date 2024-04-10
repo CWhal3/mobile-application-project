@@ -58,11 +58,11 @@ import com.example.myapplication.ui.NewScreen
 import com.example.myapplication.ui.SearchScreen
 import com.example.myapplication.ui.theme.AppTheme
 
-enum class CodeProjectViews(val route: String, @StringRes val title: Int, val icon: ImageVector) {
-    Home(route = "Home", title = R.string.app_name, icon = Icons.Filled.LocationOn),
-    Directory(route = "Directory", title = R.string.app_name, icon = Icons.Filled.Home),
-    Search(route = "Search", title = R.string.app_name, icon = Icons.Filled.Search),
-    Other(route = "Other", title = R.string.app_name, icon = Icons.Filled.List),
+enum class CodeProjectViews(val route: String, val icon: ImageVector) {
+    Home(route = "Home", icon = Icons.Filled.LocationOn),
+    Directory(route = "Directory", icon = Icons.Filled.Home),
+    Search(route = "Search", icon = Icons.Filled.Search),
+    Other(route = "Other", icon = Icons.Filled.List),
 }
 
 @Composable
@@ -73,7 +73,7 @@ fun AppBarTop(
     modifier: Modifier = Modifier,
 ) {
     TopAppBar(
-        title = { Text(stringResource(currentScreen.title)) },
+        title = { Text(currentScreen.route) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ),

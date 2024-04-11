@@ -148,7 +148,7 @@ fun Application(
         ) {
             // This is where the code for rendering the different variants go
             composable(route = CodeProjectViews.Home.route) {
-                HomeScreen(modifier = Modifier.fillMaxHeight())
+                HomeScreen(navController = navController, modifier = Modifier.fillMaxHeight())
             }
             composable(route = CodeProjectViews.Directory.route) {
                 DirectoryScreen(modifier = Modifier.fillMaxHeight())

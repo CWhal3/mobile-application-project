@@ -2,7 +2,9 @@ package com.example.myapplication.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,9 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
+fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = "Welcome!",
@@ -36,6 +39,8 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 //        Add in a text box
         TextboxWithSymbols()
+        Spacer(modifier = Modifier.height(16.dp))
+        ClickableSection(navController = navController)
     }
 }
 
@@ -77,7 +82,46 @@ fun TextboxWithSymbols() {
                     )
                 }
             },
+            
             modifier = Modifier.fillMaxWidth()
         )
+    }
+}
+@Composable
+fun ClickableSection(navController: NavHostController) {
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        ClickableItem(
+            text = "Map",
+            description = "Click Here to find the location" +
+                "that best suits your needs.",
+            onClick = {
+                navController.navigate("Other")
+            }
+        )
+        ClickableItem(text = "Directory",
+            description = "Information regarding Healthcare Q&A plus which" +
+                "health care type best suits your needs.",
+            onClick = {
+                navController.navigate("Directory")
+            }
+        )
+    }
+}
+@Composable
+fun ClickableItem(text: String, description: String, onClick: () -> Unit){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
+            .padding(8.dp),
+        contentAlignment = Alignment.CenterStart
+    ) {
+        Column{
+            Text(text = text)
+            Text(text = description, style = MaterialTheme.typography.bodySmall)
+        }
     }
 }

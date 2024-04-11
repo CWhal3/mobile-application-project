@@ -54,15 +54,18 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.DirectoryScreen
 
 import com.example.myapplication.ui.HomeScreen
-import com.example.myapplication.ui.NewScreen
+import com.example.myapplication.ui.MapScreen
+
 import com.example.myapplication.ui.SearchScreen
 import com.example.myapplication.ui.theme.AppTheme
+
+
 
 enum class CodeProjectViews(val route: String, val icon: ImageVector) {
     Home(route = "Home", icon = Icons.Filled.LocationOn),
     Directory(route = "Directory", icon = Icons.Filled.Home),
     Search(route = "Search", icon = Icons.Filled.Search),
-    Other(route = "Other", icon = Icons.Filled.List),
+    Map(route = "Map", icon = Icons.Filled.List),
 }
 
 @Composable
@@ -153,8 +156,8 @@ fun Application(
             composable(route = CodeProjectViews.Search.route) {
                 SearchScreen(modifier = Modifier.fillMaxHeight())
             }
-            composable(route = CodeProjectViews.Other.route) {
-                NewScreen(modifier = Modifier.fillMaxHeight())
+            composable(route = CodeProjectViews.Map.route) {
+                MapScreen(modifier = Modifier.fillMaxHeight())
             }
         }
     }

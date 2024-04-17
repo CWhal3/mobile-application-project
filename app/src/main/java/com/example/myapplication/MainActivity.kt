@@ -54,15 +54,31 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.DirectoryScreen
 
 import com.example.myapplication.ui.HomeScreen
-import com.example.myapplication.ui.NewScreen
-import com.example.myapplication.ui.SearchScreenCompose
+
+import com.example.myapplication.ui.MapScreen
+
+import com.example.myapplication.ui.SearchScreen
 import com.example.myapplication.ui.theme.AppTheme
 
-enum class CodeProjectViews(val route: String, val icon: ImageVector) {
-    Home(route = "Home", icon = Icons.Filled.LocationOn),
-    Directory(route = "Directory", icon = Icons.Filled.Home),
-    Search(route = "Search", icon = Icons.Filled.Search),
-    Other(route = "Other", icon = Icons.Filled.List),
+
+
+enum class CodeProjectViews(val route: String, val description: String, val icon: ImageVector) {
+    Home(
+        route = "Home",
+        description = "Click here to navigate the different pages.",
+        icon = Icons.Filled.LocationOn
+    ),
+    // Directory(route = "Directory", icon = Icons.Filled.Home),
+    Search(
+        route = "Search",
+        description = "Click here to search for what you need.",
+        icon = Icons.Filled.Search
+    ),
+    Map(
+        route = "Map",
+        description = "Click here to find the location",
+        icon = Icons.Filled.List
+    ),
 }
 
 @Composable
@@ -140,21 +156,21 @@ fun Application(
             startDestination = CodeProjectViews.Home.route,
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+
                 .padding(innerPadding),
         ) {
             // This is where the code for rendering the different variants go
             composable(route = CodeProjectViews.Home.route) {
-                HomeScreen(modifier = Modifier.fillMaxHeight())
+                HomeScreen(navController = navController, modifier = Modifier.fillMaxHeight())
             }
-            composable(route = CodeProjectViews.Directory.route) {
-                DirectoryScreen(modifier = Modifier.fillMaxHeight())
-            }
+            // composable(route = CodeProjectViews.Directory.route) {
+            //     DirectoryScreen(modifier = Modifier.fillMaxHeight())
+            // }
             composable(route = CodeProjectViews.Search.route) {
-                SearchScreenCompose(modifier = Modifier.fillMaxHeight())
+                SearchScreen(modifier = Modifier.fillMaxHeight())
             }
-            composable(route = CodeProjectViews.Other.route) {
-                NewScreen(modifier = Modifier.fillMaxHeight())
+            composable(route = CodeProjectViews.Map.route) {
+                MapScreen(modifier = Modifier.fillMaxSize())
             }
         }
     }

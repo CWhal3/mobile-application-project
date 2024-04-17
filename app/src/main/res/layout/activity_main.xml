@@ -15,4 +15,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="369dp"
+        android:layout_height="623dp"
+        tools:layout_editor_absoluteX="21dp"
+        tools:layout_editor_absoluteY="54dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

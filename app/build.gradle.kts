@@ -75,6 +75,16 @@ dependencies {
 
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation ("io.ktor:ktor-client-core:1.6.7")
+    implementation ("io.ktor:ktor-client-cio:1.6.7")
+    implementation ("io.ktor:ktor-client-serialization:1.6.7")
+    // Serialization
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.navigation:navigation-testing:2.7.4")

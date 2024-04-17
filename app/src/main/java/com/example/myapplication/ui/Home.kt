@@ -96,14 +96,16 @@ fun ClickableSection(navController: NavHostController) {
     ) {
 
         CodeProjectViews.values().forEach { page ->
-            ClickableItem(
-                text = page.route[0].toUpperCase() + page.route.substring(1),
-                description = page.description,
-                onClick = {
-                    navController.navigate(page.route)
-                }
+            if (page.route !== "Home") {
+                ClickableItem(
+                    text = page.route,
+                    description = page.description,
+                    onClick = {
+                        navController.navigate(page.route)
+                    }
 
-            )
+                )
+            }
         }
         //     description = "Information regarding Healthcare Q&A plus which" +
         //         "health care type best suits your needs.",

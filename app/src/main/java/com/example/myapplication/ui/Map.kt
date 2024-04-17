@@ -1,8 +1,6 @@
 package com.example.myapplication.ui
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -20,6 +18,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import android.util.Log
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.ui.unit.dp
+
 
 @Composable
 fun MapScreen(modifier: Modifier = Modifier) {
@@ -27,7 +31,7 @@ fun MapScreen(modifier: Modifier = Modifier) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val mapView = remember {
         MapView(context).apply {
-            onCreate(Bundle())
+
         }
     }
 
@@ -51,32 +55,74 @@ fun MapScreen(modifier: Modifier = Modifier) {
         }
     }
 
+
+
+
+
     AndroidView(
         factory = { mapView },
         modifier = modifier.fillMaxSize(),
         update = {
             mapView.getMapAsync { googleMap ->
+                Log.d("MapScreen", "GoogleMap is ready")
                 setUpMap(googleMap)
+                googleMap.setOnMarkerClickListener { marker ->
+                    // Handle marker click event here if needed
+                    false // Return false to indicate that we haven't consumed the event
+                }
+
             }
 
 
         }
+
+
+
+
     )
+
+//    Button(
+//        onClick = { addEmergencyRoomMarker(mapView) },
+//        modifier = Modifier.padding(16.dp)
+//    ) {
+//        Text("Add Emergency Room Marker")
+//    }
+
+
 }
 private fun setUpMap(googleMap: GoogleMap) {
 
+    Log.d("MapScreen", "setUpMap function called successfully")
+
+    // Map view initial location and zoom level = Halifax / HRM area
     val location = LatLng(44.651070, -63.582687)
+    val zoomLevel = 12f
 
+    // Move the camera to the defined location and zoom level
+    val cameraPosition = CameraPosition.Builder()
+        .target(location)
+        .zoom(zoomLevel)
+        .build()
+    googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
+    val emergencyRoomLocation = LatLng(44.645866, -63.588099)
     googleMap.addMarker(
         MarkerOptions()
-            .position(location)
-            .title("Marker in Halifax")
-            
+            .position(emergencyRoomLocation)
+            .title("Emergency Room")
     )
 
-
-    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
 }
+
+
+//private fun addEmergencyRoomMarker(googleMap: GoogleMap) {
+//    val emergencyRoomLocation = LatLng(44.651070, -63.582687)
+//    googleMap.addMarker(
+//        MarkerOptions()
+//            .position(emergencyRoomLocation)
+//            .title("Emergency Room")
+//    )
+//}
+
 
 

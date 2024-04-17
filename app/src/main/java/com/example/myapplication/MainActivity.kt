@@ -63,7 +63,7 @@ import com.example.myapplication.ui.theme.AppTheme
 
 enum class CodeProjectViews(val route: String, val icon: ImageVector) {
     Home(route = "Home", icon = Icons.Filled.LocationOn),
-    Directory(route = "Directory", icon = Icons.Filled.Home),
+    // Directory(route = "Directory", icon = Icons.Filled.Home),
     Search(route = "Search", icon = Icons.Filled.Search),
     Map(route = "Map", icon = Icons.Filled.List),
 }
@@ -150,9 +150,9 @@ fun Application(
             composable(route = CodeProjectViews.Home.route) {
                 HomeScreen(navController = navController, modifier = Modifier.fillMaxHeight())
             }
-            composable(route = CodeProjectViews.Directory.route) {
-                DirectoryScreen(modifier = Modifier.fillMaxHeight())
-            }
+            // composable(route = CodeProjectViews.Directory.route) {
+            //     DirectoryScreen(modifier = Modifier.fillMaxHeight())
+            // }
             composable(route = CodeProjectViews.Search.route) {
                 SearchScreen(modifier = Modifier.fillMaxHeight())
             }

@@ -1,50 +1,82 @@
 package com.example.myapplication.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 @Composable
 fun MapScreen(modifier: Modifier = Modifier) {
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val mapView = remember {
+        MapView(context).apply {
+            onCreate(Bundle())
+        }
+    }
+
+    DisposableEffect(lifecycleOwner) {
+        val lifecycleObserver = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_CREATE -> mapView.onCreate(Bundle())
+                Lifecycle.Event.ON_START -> mapView.onStart()
+                Lifecycle.Event.ON_RESUME -> mapView.onResume()
+                Lifecycle.Event.ON_PAUSE -> mapView.onPause()
+                Lifecycle.Event.ON_STOP -> mapView.onStop()
+                Lifecycle.Event.ON_DESTROY -> mapView.onDestroy()
+                else -> throw IllegalStateException()
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
+            mapView.onDestroy()
+        }
+    }
 
     AndroidView(
-        { ctx ->
-            MapView(ctx).apply {
-                // Pass a new instance of Bundle, since onCreate requires it but doesn't use it internally.
-                onCreate(Bundle())
-                getMapAsync(OnMapReadyCallback { googleMap ->
-                    setUpMap(googleMap)
-                })
+        factory = { mapView },
+        modifier = modifier.fillMaxSize(),
+        update = {
+            mapView.getMapAsync { googleMap ->
+                setUpMap(googleMap)
             }
-        },
-        modifier = modifier.fillMaxSize(), // Fill the entire space available
-        update = { mapView ->
-            // Lifecycle events forwarding from the activity or fragment
-            mapView.onStart()
-            mapView.onResume()
-            mapView.onPause()
-            mapView.onStop()
-            mapView.onDestroy()
+
+
         }
     )
 }
-
 private fun setUpMap(googleMap: GoogleMap) {
-    // Example: Set the map type, add markers, or move the camera
-    val halifax = LatLng(44.651070, -63.582687) // Coordinates for Halifax
+
+    val location = LatLng(44.651070, -63.582687)
+
+
     googleMap.addMarker(
-        com.google.android.gms.maps.model.MarkerOptions()
-            .position(halifax)
+        MarkerOptions()
+            .position(location)
             .title("Marker in Halifax")
+            
     )
-    googleMap.moveCamera(CameraUpdateFactory.newLatLng(halifax))
+
+
+    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 10f))
 }
+
+

@@ -155,7 +155,7 @@ fun Application(
             startDestination = CodeProjectViews.Home.route,
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
+
                 .padding(innerPadding),
         ) {
             // This is where the code for rendering the different variants go
@@ -169,7 +169,7 @@ fun Application(
                 SearchScreen(modifier = Modifier.fillMaxHeight())
             }
             composable(route = CodeProjectViews.Map.route) {
-                MapScreen(modifier = Modifier.fillMaxHeight())
+                MapScreen(modifier = Modifier.fillMaxSize())
             }
         }
     }

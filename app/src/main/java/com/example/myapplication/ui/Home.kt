@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.myapplication.CodeProjectViews
 
 @Composable
 fun HomeScreen(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -93,21 +94,23 @@ fun ClickableSection(navController: NavHostController) {
         modifier = Modifier.padding(horizontal = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        ClickableItem(
-            text = "Map",
-            description = "Click Here to find the location" +
-                "that best suits your needs.",
-            onClick = {
-                navController.navigate("Other")
-            }
-        )
-        ClickableItem(text = "Directory",
-            description = "Information regarding Healthcare Q&A plus which" +
-                "health care type best suits your needs.",
-            onClick = {
-                navController.navigate("Directory")
-            }
-        )
+
+        CodeProjectViews.values().forEach { page ->
+            ClickableItem(
+                text = page.route[0].toUpperCase() + page.route.substring(1),
+                description = page.description,
+                onClick = {
+                    navController.navigate(page.route)
+                }
+
+            )
+        }
+        //     description = "Information regarding Healthcare Q&A plus which" +
+        //         "health care type best suits your needs.",
+        //     onClick = {
+        //         navController.navigate("Directory")
+        //     }
+        // )
     }
 }
 @Composable

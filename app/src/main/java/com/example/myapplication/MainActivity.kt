@@ -61,11 +61,23 @@ import com.example.myapplication.ui.theme.AppTheme
 
 
 
-enum class CodeProjectViews(val route: String, val icon: ImageVector) {
-    Home(route = "Home", icon = Icons.Filled.LocationOn),
+enum class CodeProjectViews(val route: String, val description: String, val icon: ImageVector) {
+    Home(
+        route = "Home",
+        description = "Click here to navigate the different pages.",
+        icon = Icons.Filled.LocationOn
+    ),
     // Directory(route = "Directory", icon = Icons.Filled.Home),
-    Search(route = "Search", icon = Icons.Filled.Search),
-    Map(route = "Map", icon = Icons.Filled.List),
+    Search(
+        route = "Search",
+        description = "Click here to search for what you need.",
+        icon = Icons.Filled.Search
+    ),
+    Map(
+        route = "Map",
+        description = "Click here to find the location",
+        icon = Icons.Filled.List
+    ),
 }
 
 @Composable

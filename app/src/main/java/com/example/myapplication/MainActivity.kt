@@ -54,9 +54,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.DirectoryScreen
 
 import com.example.myapplication.ui.HomeScreen
-
 import com.example.myapplication.ui.MapScreen
-
 import com.example.myapplication.ui.SearchScreen
 import com.example.myapplication.ui.theme.AppTheme
 

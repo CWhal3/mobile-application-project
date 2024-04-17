@@ -56,7 +56,7 @@ val client = HttpClient(CIO) {
 
 
 @Composable
-fun SearchScreenCompose(modifier: Modifier = Modifier) {
+fun SearchScreen(modifier: Modifier = Modifier) {
     val coroutineScope = rememberCoroutineScope()
     var apiResponse by remember { mutableStateOf("") }
 

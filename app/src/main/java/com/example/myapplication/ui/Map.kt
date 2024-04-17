@@ -67,8 +67,8 @@ fun MapScreen(modifier: Modifier = Modifier) {
                 Log.d("MapScreen", "GoogleMap is ready")
                 setUpMap(googleMap)
                 googleMap.setOnMarkerClickListener { marker ->
-                    // Handle marker click event here if needed
-                    false // Return false to indicate that we haven't consumed the event
+
+                    false
                 }
 
             }
@@ -96,7 +96,7 @@ private fun setUpMap(googleMap: GoogleMap) {
 
     // Map view initial location and zoom level = Halifax / HRM area
     val location = LatLng(44.651070, -63.582687)
-    val zoomLevel = 12f
+    val zoomLevel = 10f
 
     // Move the camera to the defined location and zoom level
     val cameraPosition = CameraPosition.Builder()
@@ -105,11 +105,11 @@ private fun setUpMap(googleMap: GoogleMap) {
         .build()
     googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
-    val emergencyRoomLocation = LatLng(44.645866, -63.588099)
+    val emergencyRoomLocation1 = LatLng(44.645866, -63.588099)
     googleMap.addMarker(
         MarkerOptions()
-            .position(emergencyRoomLocation)
-            .title("Emergency Room")
+            .position(emergencyRoomLocation1)
+            .title(" QEII Emergency Room")
     )
 
 }

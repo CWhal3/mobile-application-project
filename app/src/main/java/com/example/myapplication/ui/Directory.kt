@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 fun DirectoryScreen(modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
-            text = "Banana!",
+            text = "Directory",
             style = MaterialTheme.typography.headlineSmall,
         )
     }
